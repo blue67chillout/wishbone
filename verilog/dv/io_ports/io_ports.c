@@ -19,6 +19,10 @@
 #include <defs.h>
 #include <stub.c>
 
+#define reg_op      (*(volatile uint32_t*)0x30000000)
+#define reg_opp     (*(volatile uint32_t*)0x30000004)
+
+//int i = 0;
 /*
 	IO Test:
 		- Configures MPRJ lower 8-IO pins as outputs
@@ -46,11 +50,11 @@ void main()
 	/* Set up the housekeeping SPI to be connected internally so	*/
 	/* that external pin changes don't affect it.			*/
 
-	// reg_spi_enable = 1;
+	 reg_spi_enable = 1;
 	// reg_spimaster_cs = 0x10001;
 	// reg_spimaster_control = 0x0801;
 
-	// reg_spimaster_control = 0xa002;	// Enable, prescaler = 2,
+	 reg_spimaster_control = 0xa002;	// Enable, prescaler = 2,
                                         // connect to housekeeping SPI
 
 	// Connect the housekeeping SPI to the SPI master
@@ -59,17 +63,48 @@ void main()
 
 	// Configure lower 8-IOs as user output
 	// Observe counter value in the testbench
-	reg_mprj_io_0 =  GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_1 =  GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_2 =  GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_3 =  GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_4 =  GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_5 =  GPIO_MODE_USER_STD_OUTPUT;
-	reg_mprj_io_6 =  GPIO_MODE_USER_STD_OUTPUT;
+
+
+	
 	reg_mprj_io_7 =  GPIO_MODE_USER_STD_OUTPUT;
+    reg_mprj_io_6 =  GPIO_MODE_USER_STD_OUTPUT;
+	reg_mprj_io_5 =  GPIO_MODE_USER_STD_OUTPUT;
+	reg_mprj_io_4 =  GPIO_MODE_USER_STD_OUTPUT;
+	reg_mprj_io_3 =  GPIO_MODE_USER_STD_OUTPUT;
+	reg_mprj_io_2 =  GPIO_MODE_USER_STD_OUTPUT;
+	reg_mprj_io_1 =  GPIO_MODE_USER_STD_OUTPUT;
+	reg_mprj_io_0 =  GPIO_MODE_USER_STD_OUTPUT;
+
+	reg_mprj_io_31 =  GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_30 =  GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_29 =  GPIO_MODE_MGMT_STD_OUTPUT;
+	reg_mprj_io_28 =  GPIO_MODE_MGMT_STD_OUTPUT;
+	//reg_mprj_io_33 =  GPIO_MODE_MGMT_STD_OUTPUT;
+	//reg_mprj_io_32 =  GPIO_MODE_MGMT_STD_OUTPUT;
+
+
+int i = 16;
+
+	
+	reg_wb_enable=1;
 
 	/* Apply configuration */
 	reg_mprj_xfer = 1;
 	while (reg_mprj_xfer == 1);
+
+	//reg_op = 0x34;
+	
+	//if(reg_op == 0x7){
+	 // reg_mprj_datal = 0xB0000000;
+	 // }
+	
+	reg_opp = 0x77;
+
+	while(i<20){
+		reg_op = i;
+		i++;
+	}
+
+
 }
 
